@@ -3,54 +3,51 @@ package de.nebalus;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 
 public class PrimeNumbers {
 
 	private static boolean isRunning;
-	
+	private static int primeCount;
 	
 	public static void main(String[] args) {	
-		start();
-	}
-	
-	public static void start() {	
 		String line = "";
 		BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 		try {
 			while((line = reader.readLine()) != null &&!isRunning) {
 				try {
-					Long amount = Long.parseLong(line)+1l;	
-					Long amountofprimenumbers = 0l;
-					int prozent = 0;
-					final Long time = System.currentTimeMillis();
-					isRunning = true;
-					System.out.println("Program has now been started");
-					for (Long i= 1l; i < amount; ++i) {
-	
-							boolean isPrimeNumber = true;
-							for(Long i1= 2l; i1 < i; ++i1) {
-								if(isPrimeNumber && i % i1 == 0 && i != i1) isPrimeNumber = false;
-							}
-							if(isPrimeNumber) {
-								amountofprimenumbers++;
-								System.out.println(i);
-							}
-							int newProzent = (int) (i*100/amount);
-							if(newProzent != prozent) {
-								prozent = newProzent;
-								//System.out.println(prozent+"%");
-								
-							
-						}
-					}			
-					isRunning = false;
-					System.out.println("Program ended! ("+((System.currentTimeMillis()-time)/1000)+"s)");
-					System.out.println("There are "+amountofprimenumbers+" primenumbers from "+(amount-1));
-				}catch(NumberFormatException e) {
+					System.out.println(findPrimeNumbers(Integer.parseInt(line)));
+					System.out.println(primeCount);
+				}catch (NumberFormatException e) {
 					System.out.println("Please use only a number!");
 				}
 			}
-		}catch(IOException e) {}	
+		}catch(IOException e) {}
 	}
+	
+	private static List<Integer> findPrimeNumbers(int n){
+		isRunning = true;
+		primeCount = 0;
+		boolean[] primes = new boolean[n + 1];
+		Arrays.fill(primes, true);
+		for (int i = 2; i * i < n; i++) {
+			if (primes[i]) {
+				for (int j = i * i; j <= n; j += i)
+					primes[j] = false;
+			}
+		}
+		List<Integer> primeNumbers = new ArrayList<>();
+		for (int i = 2; i <= n; i++) {
+			if (primes[i])
+				primeCount++;
+				primeNumbers.add(i);
+		}
+		isRunning = false;
+		return primeNumbers;
+	}
+	
+
 }
