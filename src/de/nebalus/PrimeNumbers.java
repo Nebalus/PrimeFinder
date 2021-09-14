@@ -10,10 +10,10 @@ import java.util.List;
 
 public class PrimeNumbers {
 
-	private static boolean isRunning;
-	private static int primeCount;
+	private boolean isRunning = false;
+	private int primeCount = 0;
 	
-	public static void main(String[] args) {	
+	public void main(String[] args) {	
 		String line = "";
 		BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 		try {
@@ -28,7 +28,7 @@ public class PrimeNumbers {
 		}catch(IOException e) {}
 	}
 	
-	private static List<Integer> findPrimeNumbers(int n){
+	private List<Integer> findPrimeNumbers(int n){
 		isRunning = true;
 		primeCount = 0;
 		boolean[] primes = new boolean[n + 1];
@@ -48,6 +48,4 @@ public class PrimeNumbers {
 		isRunning = false;
 		return primeNumbers;
 	}
-	
-
 }
